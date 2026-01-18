@@ -1,0 +1,125 @@
+generator client {
+    provider = "prisma-client-js"
+    binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  SECRETARIO
+  EDITOR
+}
+
+enum StatusLicitacao {
+  ABERTA
+  EM_ANDAMENTO
+  ENCERRADA
+  SUSPENSA
+  CANCELADA
+}
+
+enum TipoMidia {
+  FOTO
+  VIDEO
+}
+
+model User {
+  id            String     @id @default(cuid())
+  email         String     @unique
+  password      String
+  name          String
+  role          UserRole   @default(EDITOR)
+  secretariaId  String?
+  secretaria    Secretaria? @relation(fields: [secretariaId], references: [id])
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  noticias      Noticia[]
+}
+
+model Secretaria {
+  id          String    @id @default(cuid())
+  nome        String
+  sigla       String?
+  descricao   String?   @db.Text
+  secretario  String?
+  fotoSecretario String?
+  telefone    String?
+  email       String?
+  endereco    String?
+  ordem       Int       @default(0)
+  ativo       Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  users       User[]
+  noticias    Noticia[]
+  licitacoes  Licitacao[]
+}
+
+model Licitacao {
+  id            String          @id @default(cuid())
+  numero        String
+  modalidade    String
+  objeto        String          @db.Text
+  valorEstimado Decimal?        @db.Decimal(15, 2)
+  dataAbertura  DateTime
+  dataEncerramento DateTime?
+  status        StatusLicitacao @default(ABERTA)
+  editalUrl     String?
+  secretariaId  String?
+  secretaria    Secretaria?     @relation(fields: [secretariaId], references: [id])
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model Noticia {
+  id            String      @id @default(cuid())
+  titulo        String
+  resumo        String?     @db.Text
+  conteudo      String      @db.Text
+  imagemCapa    String?
+  destaque      Boolean     @default(false)
+  publicado     Boolean     @default(true)
+  autorId       String?
+  autor         User?       @relation(fields: [autorId], references: [id])
+  secretariaId  String?
+  secretaria    Secretaria? @relation(fields: [secretariaId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model Midia {
+  id          String    @id @default(cuid())
+  titulo      String
+  descricao   String?
+  tipo        TipoMidia
+  url         String
+  thumbnail   String?
+  destaque    Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model ConfiguracaoSite {
+  id              String   @id @default(cuid())
+  nomeCidade      String   @default("Lambari")
+  slogan          String?  @default("Estância Hidromineral")
+  telefone        String?
+  email           String?
+  endereco        String?
+  horarioAtendimento String?
+  facebookUrl     String?
+  instagramUrl    String?
+  youtubeUrl      String?
+  logoUrl         String?
+  bannerUrl       String?
+  prefeito        String?
+  fotoPrefeito    String?
+  vicePrefeito    String?
+  fotoVicePrefeito String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
