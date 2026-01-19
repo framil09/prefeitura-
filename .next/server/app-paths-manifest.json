@@ -1,10 +1,11 @@
 {
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/api/permissoes/[userId]/route": "app/api/permissoes/[userId]/route.js",
-  "/admin/dashboard/page": "app/admin/dashboard/page.js",
-  "/admin/permissoes/page": "app/admin/permissoes/page.js",
-  "/admin/usuarios/page": "app/admin/usuarios/page.js",
-  "/admin/gestao/page": "app/admin/gestao/page.js",
-  "/admin/secretarias/page": "app/admin/secretarias/page.js",
-  "/admin/login/page": "app/admin/login/page.js"
+  "/api/editais/route": "app/api/editais/route.js",
+  "/admin/noticias/page": "app/admin/noticias/page.js",
+  "/admin/galeria/page": "app/admin/galeria/page.js",
+  "/admin/editais/page": "app/admin/editais/page.js",
+  "/admin/licitacoes/page": "app/admin/licitacoes/page.js",
+  "/admin/configuracao/page": "app/admin/configuracao/page.js",
+  "/(public)/editais/page": "app/(public)/editais/page.js"
 }

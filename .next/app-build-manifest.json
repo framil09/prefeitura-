@@ -55,6 +55,56 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/admin/secretarias/page.js"
+    ],
+    "/admin/turismo/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/turismo/page.js"
+    ],
+    "/(public)/transparencia/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(public)/transparencia/page.js"
+    ],
+    "/(public)/secretarias/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(public)/secretarias/page.js"
+    ],
+    "/(public)/licitacoes/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(public)/licitacoes/page.js"
+    ],
+    "/admin/noticias/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/noticias/page.js"
+    ],
+    "/admin/galeria/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/galeria/page.js"
+    ],
+    "/admin/configuracao/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/configuracao/page.js"
+    ],
+    "/(public)/editais/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(public)/editais/page.js"
+    ],
+    "/admin/editais/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/editais/page.js"
+    ],
+    "/admin/licitacoes/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/admin/licitacoes/page.js"
     ]
   }
 }
