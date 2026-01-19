@@ -1,11 +1,8 @@
 {
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/permissoes/[userId]/route": "app/api/permissoes/[userId]/route.js",
-  "/api/editais/route": "app/api/editais/route.js",
-  "/admin/noticias/page": "app/admin/noticias/page.js",
-  "/admin/galeria/page": "app/admin/galeria/page.js",
   "/admin/editais/page": "app/admin/editais/page.js",
-  "/admin/licitacoes/page": "app/admin/licitacoes/page.js",
-  "/admin/configuracao/page": "app/admin/configuracao/page.js",
-  "/(public)/editais/page": "app/(public)/editais/page.js"
+  "/(public)/page": "app/(public)/page.js",
+  "/(public)/transparencia/page": "app/(public)/transparencia/page.js",
+  "/(public)/editais/page": "app/(public)/editais/page.js",
+  "/admin/licitacoes/page": "app/admin/licitacoes/page.js"
 }
