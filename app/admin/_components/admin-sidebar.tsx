@@ -34,7 +34,6 @@ const menuItems: MenuItem[] = [
   { href: "/admin/gestao", label: "Gestão Municipal", icon: Award, roles: ["ADMIN"], secao: "GESTAO_MUNICIPAL" },
   { href: "/admin/secretarias", label: "Secretarias", icon: Building2, roles: ["ADMIN"], secao: "SECRETARIAS" },
   { href: "/admin/turismo", label: "Turismo", icon: Mountain, roles: ["ADMIN", "SECRETARIO"], secao: "TURISMO" },
-  { href: "https://portal.sgpcloud.net:9076/transparencia/", label: "Portal Transparência", icon: FileText, roles: ["ADMIN"], secao: "TRANSPARENCIA", external: true },
   { href: "/admin/licitacoes", label: "Licitações", icon: FileText, roles: ["ADMIN", "SECRETARIO"], secao: "LICITACOES" },
   { href: "/admin/emendas-impositivas", label: "Emendas Impositivas", icon: PenTool, roles: ["ADMIN", "SECRETARIO"], secao: "EMENDAS_IMPOSITIVAS" },
   { href: "/admin/noticias", label: "Notícias", icon: Newspaper, roles: ["ADMIN", "SECRETARIO", "EDITOR"], secao: "NOTICIAS" },
