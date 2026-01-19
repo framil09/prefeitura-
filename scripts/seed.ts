@@ -135,7 +135,7 @@ async function main() {
 
   // Usuários
   const hashedPassword = await bcrypt.hash("johndoe123", 10);
-  const hashedAdminPassword = await bcrypt.hash("lambari2025", 10);
+  const hashedAdminPassword = await bcrypt.hash("Admin@123", 10);
 
   await prisma.user.create({
     data: {
@@ -148,7 +148,7 @@ async function main() {
 
   await prisma.user.create({
     data: {
-      email: "admin@lambari.mg.gov.br",
+      email: "admin@lambari.gov.br",
       password: hashedAdminPassword,
       name: "Administrador",
       role: "ADMIN"

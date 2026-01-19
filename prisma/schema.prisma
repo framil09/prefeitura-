@@ -14,6 +14,20 @@ enum UserRole {
   EDITOR
 }
 
+enum SecaoAdmin {
+  DASHBOARD
+  GESTAO_MUNICIPAL
+  SECRETARIAS
+  TURISMO
+  TRANSPARENCIA
+  LICITACOES
+  EMENDAS_IMPOSITIVAS
+  NOTICIAS
+  GALERIA
+  USUARIOS
+  CONFIGURACAO
+}
+
 enum StatusLicitacao {
   ABERTA
   EM_ANDAMENTO
@@ -38,6 +52,20 @@ model User {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   noticias      Noticia[]
+  permissoes    Permissao[]
+}
+
+model Permissao {
+  id            String     @id @default(cuid())
+  userId        String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  secao         SecaoAdmin
+  permitido      Boolean    @default(true)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@unique([userId, secao])
+  @@index([userId])
 }
 
 model Secretaria {
@@ -60,19 +88,24 @@ model Secretaria {
 }
 
 model Licitacao {
-  id            String          @id @default(cuid())
-  numero        String
-  modalidade    String
-  objeto        String          @db.Text
-  valorEstimado Decimal?        @db.Decimal(15, 2)
-  dataAbertura  DateTime
-  dataEncerramento DateTime?
-  status        StatusLicitacao @default(ABERTA)
-  editalUrl     String?
-  secretariaId  String?
-  secretaria    Secretaria?     @relation(fields: [secretariaId], references: [id])
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  id                   String          @id @default(cuid())
+  numero               String
+  modalidade           String
+  objeto               String          @db.Text
+  descricaoDetalhada   String?         @db.Text
+  valorEstimado        Decimal?        @db.Decimal(15, 2)
+  dataAbertura         DateTime
+  dataEncerramento     DateTime?
+  status               StatusLicitacao @default(ABERTA)
+  editalUrl            String?
+  contactoPessoa       String?
+  contactoEmail        String?
+  contactoTelefone     String?
+  local                String?
+  secretariaId         String?
+  secretaria           Secretaria?     @relation(fields: [secretariaId], references: [id])
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
 }
 
 model Noticia {
@@ -81,14 +114,21 @@ model Noticia {
   resumo        String?     @db.Text
   conteudo      String      @db.Text
   imagemCapa    String?
+  videoUrl      String?
+  fotos         String[]    @default([])
   destaque      Boolean     @default(false)
   publicado     Boolean     @default(true)
+  dataInicio    DateTime?
+  dataFim       DateTime?
   autorId       String?
   autor         User?       @relation(fields: [autorId], references: [id])
   secretariaId  String?
   secretaria    Secretaria? @relation(fields: [secretariaId], references: [id])
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+
+  @@index([publicado])
+  @@index([destaque])
 }
 
 model Midia {
@@ -107,6 +147,9 @@ model ConfiguracaoSite {
   id              String   @id @default(cuid())
   nomeCidade      String   @default("Lambari")
   slogan          String?  @default("Estância Hidromineral")
+  fotoSlogan      String?
+  logoUrl         String?
+  bannerUrl       String?
   telefone        String?
   email           String?
   endereco        String?
@@ -114,8 +157,6 @@ model ConfiguracaoSite {
   facebookUrl     String?
   instagramUrl    String?
   youtubeUrl      String?
-  logoUrl         String?
-  bannerUrl       String?
   prefeito        String?
   fotoPrefeito    String?
   vicePrefeito    String?
@@ -123,3 +164,110 @@ model ConfiguracaoSite {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
+model Prefeito {
+  id            String    @id @default(cuid())
+  nome          String
+  foto          String?
+  ano_inicio    Int
+  ano_fim       Int?
+  descricao     String?   @db.Text
+  partido       String?
+  destaque      Boolean   @default(false)
+  ativo         Boolean   @default(true)
+  ordem         Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([ano_inicio])
+  @@index([destaque])
+}
+
+model EmendaImpositiva {
+  id            String    @id @default(cuid())
+  numero        String    @unique
+  titulo        String
+  descricao     String?   @db.Text
+  autor         String?
+  secretaria    String?
+  valor         Decimal?  @db.Decimal(15, 2)
+  dataAutoria   DateTime?
+  dataExecucao  DateTime?
+  percentualExecucao Int?   @default(0)
+  documentoUrl  String?
+  ativo         Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([numero])
+  @@index([ativo])
+}
+
+model EditalChamadaPublica {
+  id              String    @id @default(cuid())
+  numero          String    @unique
+  titulo          String
+  descricao       String?   @db.Text
+  tipo            String    // ex: "Edital", "Chamada Pública", "Licitação"
+  dataAbertura    DateTime?
+  dataEncerramento DateTime?
+  documentoUrl    String?
+  resultadoUrl    String?
+  conteudo        String?   @db.Text
+  ativo           Boolean   @default(true)
+  destaque        Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([numero])
+  @@index([ativo])
+  @@index([destaque])
+}
+
+model AtrativoTuristico {
+  id              String    @id @default(cuid())
+  nome            String
+  descricao       String?   @db.Text
+  imagem          String?
+  categoria       String    // "parque", "cassino", "lago", "florestal"
+  ordem           Int       @default(0)
+  ativo           Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([ativo])
+  @@index([ordem])
+}
+
+model FonteMuneral {
+  id              String    @id @default(cuid())
+  nome            String
+  descricao       String?   @db.Text
+  propriedades    String?   @db.Text
+  ordem           Int       @default(0)
+  ativo           Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([ativo])
+  @@index([ordem])
+}
+
+model DocumentoTransparencia {
+  id              String    @id @default(cuid())
+  titulo          String
+  descricao       String?   @db.Text
+  categoria       String    // "orcamento", "licitacoes", "gestao", "receitas"
+  url             String?
+  arquivo         String?   // URL do arquivo
+  dataPublicacao  DateTime?
+  ordem           Int       @default(0)
+  ativo           Boolean   @default(true)
+  destaque        Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([categoria])
+  @@index([ativo])
+  @@index([ordem])
+}
+

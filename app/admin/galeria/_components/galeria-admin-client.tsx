@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { MediaUpload } from "@/components/media-upload";
+import { useToast } from "@/components/ui/use-toast";
 
 interface GaleriaAdminClientProps {
   midias: any[];
@@ -16,6 +18,7 @@ interface GaleriaAdminClientProps {
 
 export function GaleriaAdminClient({ midias: initialMidias }: GaleriaAdminClientProps) {
   const router = useRouter();
+  const { toast } = useToast();
   const [midias, setMidias] = useState(initialMidias ?? []);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -70,11 +73,25 @@ export function GaleriaAdminClient({ midias: initialMidias }: GaleriaAdminClient
       });
 
       if (res.ok) {
+        toast({
+          title: "✓ Sucesso!",
+          description: editingId ? "Mídia atualizada com sucesso!" : "Mídia criada com sucesso!",
+          variant: "default",
+          className: "bg-green-500 text-white border-green-600",
+          duration: 3000,
+        });
         router.refresh();
         resetForm();
-        window.location.reload();
+      } else {
+        throw new Error("Erro ao salvar");
       }
     } catch (error) {
+      toast({
+        title: "❌ Erro",
+        description: "Erro ao salvar a mídia",
+        variant: "destructive",
+        duration: 3000,
+      });
       console.error("Erro:", error);
     } finally {
       setLoading(false);
@@ -165,6 +182,15 @@ export function GaleriaAdminClient({ midias: initialMidias }: GaleriaAdminClient
                     placeholder="URL da miniatura"
                   />
                 </div>
+              </div>
+
+              <div>
+                <MediaUpload
+                  tipo={formData.tipo}
+                  value={formData.url}
+                  onChange={(url) => setFormData({ ...formData, url })}
+                  label={`Ou Fazer Upload de ${formData.tipo === "FOTO" ? "Foto" : "Vídeo"}`}
+                />
               </div>
 
               <div className="flex items-center gap-2">

@@ -52,6 +52,8 @@ export async function PUT(
         resumo: body.resumo,
         conteudo: body.conteudo,
         imagemCapa: body.imagemCapa,
+        videoUrl: body.videoUrl,
+        fotos: body.fotos || [],
         destaque: body.destaque,
         publicado: body.publicado,
         secretariaId: body.secretariaId

@@ -16,8 +16,8 @@ export function HeroSection({ config }: HeroSectionProps) {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="https://i.ytimg.com/vi/kWCoXWkowYE/maxresdefault.jpg"
-          alt="Parque das Águas de Lambari"
+          src={config?.bannerUrl || "https://i.ytimg.com/vi/kWCoXWkowYE/maxresdefault.jpg"}
+          alt="Banner do município"
           fill
           className="object-cover"
           priority
@@ -35,12 +35,12 @@ export function HeroSection({ config }: HeroSectionProps) {
         >
           <div className="flex items-center gap-2 mb-4">
             <Droplets className="w-6 h-6 text-cyan-400" />
-            <span className="text-cyan-300 font-medium">Estância Hidromineral</span>
+            <span className="text-cyan-300 font-medium">{config?.nomeCidade || "Lambari"}</span>
           </div>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             Bem-vindo a{" "}
-            <span className="text-cyan-400">Lambari</span>
+            <span className="text-cyan-400">{config?.nomeCidade || "Lambari"}</span>
           </h1>
           
           <p className="text-lg md:text-xl text-blue-100 mb-6">
@@ -52,11 +52,6 @@ export function HeroSection({ config }: HeroSectionProps) {
               <Button size="lg" className="bg-cyan-500 hover:bg-cyan-600 text-white">
                 Conheça Lambari
                 <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
-            <Link href="/secretarias">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                Secretarias
               </Button>
             </Link>
           </div>

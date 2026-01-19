@@ -37,6 +37,8 @@ export async function POST(req: NextRequest) {
         resumo: body.resumo,
         conteudo: body.conteudo,
         imagemCapa: body.imagemCapa,
+        videoUrl: body.videoUrl,
+        fotos: body.fotos || [],
         destaque: body.destaque ?? false,
         publicado: body.publicado ?? true,
         autorId: user.id,

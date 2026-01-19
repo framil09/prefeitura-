@@ -4,9 +4,13 @@ import { Droplets, Mountain, Building, MapPin, Calendar, Users, Award } from "lu
 import { SobreClient } from "./_components/sobre-client";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 60; // Revalidar cache a cada 60 segundos
 
 export default async function SobrePage() {
   const config = await prisma.configuracaoSite.findFirst();
+  const prefeitos = await prisma.prefeito.findMany({
+    orderBy: { ano_inicio: "asc" }
+  });
 
   return (
     <div>
@@ -28,7 +32,7 @@ export default async function SobrePage() {
         </div>
       </section>
 
-      <SobreClient config={config} />
+      <SobreClient config={config} prefeitos={prefeitos} />
     </div>
   );
 }

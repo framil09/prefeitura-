@@ -1,0 +1,130 @@
+/* Accessibility Styles */
+
+/* High Contrast Mode */
+html.high-contrast {
+  --tw-bg-opacity: 1;
+}
+
+html.high-contrast body {
+  background-color: rgb(255 255 255);
+  color: rgb(0 0 0);
+}
+
+html.high-contrast {
+  --tw-border-opacity: 1;
+}
+
+html.high-contrast * {
+  border-color: rgb(0 0 0) !important;
+}
+
+html.high-contrast a {
+  color: rgb(0 0 139) !important;
+  text-decoration: underline !important;
+  font-weight: bold;
+}
+
+html.high-contrast button,
+html.high-contrast input[type="button"],
+html.high-contrast input[type="submit"] {
+  border: 2px solid rgb(0 0 0) !important;
+  background-color: rgb(255 255 255) !important;
+  color: rgb(0 0 0) !important;
+  font-weight: bold;
+}
+
+html.high-contrast button:hover,
+html.high-contrast input[type="button"]:hover,
+html.high-contrast input[type="submit"]:hover {
+  background-color: rgb(0 0 0) !important;
+  color: rgb(255 255 255) !important;
+}
+
+html.high-contrast .bg-gradient-to-r,
+html.high-contrast .bg-gradient-to-b {
+  background-image: none !important;
+  background-color: rgb(255 255 255) !important;
+}
+
+/* Dyslexia-friendly font */
+html.dyslexia-font {
+  font-family: "OpenDyslexic", "Comic Sans MS", cursive !important;
+}
+
+html.dyslexia-font * {
+  font-family: "OpenDyslexic", "Comic Sans MS", cursive !important;
+}
+
+/* Import OpenDyslexic font */
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("https://cdn.jsdelivr.net/npm/opendyslexic@2.0.0/fonts/OpenDyslexic-Regular.otf")
+    format("opentype");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("https://cdn.jsdelivr.net/npm/opendyslexic@2.0.0/fonts/OpenDyslexic-Bold.otf")
+    format("opentype");
+  font-weight: bold;
+}
+
+/* Focus visible for keyboard navigation */
+*:focus-visible {
+  outline: 3px solid rgb(59 130 246) !important;
+  outline-offset: 2px !important;
+}
+
+html.high-contrast *:focus-visible {
+  outline: 3px solid rgb(0 0 0) !important;
+}
+
+/* Skip to content link (for screen readers) */
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #000;
+  color: #fff;
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 100;
+}
+
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* Improved readability */
+html.dyslexia-font body {
+  letter-spacing: 0.1em;
+  word-spacing: 0.15em;
+}
+
+/* Ensure images have alt text visible (for high contrast) */
+html.high-contrast img[alt] {
+  border: 1px solid rgb(0 0 0);
+  padding: 4px;
+}
+
+/* Links styling improvements */
+html.high-contrast a:visited {
+  color: rgb(75 0 130) !important;
+}
+
+/* Form elements for high contrast */
+html.high-contrast input,
+html.high-contrast textarea,
+html.high-contrast select {
+  background-color: rgb(255 255 255) !important;
+  color: rgb(0 0 0) !important;
+  border: 2px solid rgb(0 0 0) !important;
+}
+
+html.high-contrast input:focus,
+html.high-contrast textarea:focus,
+html.high-contrast select:focus {
+  outline: 3px solid rgb(0 0 0) !important;
+  background-color: rgb(255 255 255) !important;
+}

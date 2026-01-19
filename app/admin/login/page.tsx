@@ -98,6 +98,13 @@ export default function AdminLoginPage() {
               </div>
             )}
 
+            {/* Credenciais de Teste */}
+            <div className="bg-blue-50 border border-blue-200 p-3 rounded-lg text-xs text-blue-800">
+              <p className="font-semibold mb-2">🧪 Credenciais de Teste:</p>
+              <p>📧 Email: <code className="bg-white px-1 py-0.5 rounded">admin@lambari.gov.br</code></p>
+              <p>🔐 Senha: <code className="bg-white px-1 py-0.5 rounded">Admin@123</code></p>
+            </div>
+
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Entrando..." : "Entrar"}
             </Button>

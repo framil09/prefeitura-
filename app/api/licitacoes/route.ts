@@ -40,18 +40,24 @@ export async function POST(req: NextRequest) {
         numero: body.numero,
         modalidade: body.modalidade,
         objeto: body.objeto,
+        descricaoDetalhada: body.descricaoDetalhada || null,
         valorEstimado: body.valorEstimado ? parseFloat(body.valorEstimado) : null,
         dataAbertura: new Date(body.dataAbertura),
         dataEncerramento: body.dataEncerramento ? new Date(body.dataEncerramento) : null,
         status: body.status ?? "ABERTA",
-        editalUrl: body.editalUrl,
-        secretariaId: body.secretariaId
-      }
+        editalUrl: body.editalUrl || null,
+        contactoPessoa: body.contactoPessoa || null,
+        contactoEmail: body.contactoEmail || null,
+        contactoTelefone: body.contactoTelefone || null,
+        local: body.local || null,
+        secretariaId: body.secretariaId || null
+      },
+      include: { secretaria: true }
     });
 
     return NextResponse.json(licitacao, { status: 201 });
   } catch (error) {
     console.error("Erro ao criar licitação:", error);
-    return NextResponse.json({ error: "Erro ao criar licitação" }, { status: 500 });
+    return NextResponse.json({ error: "Erro ao criar licitação", details: error instanceof Error ? error.message : "Erro desconhecido" }, { status: 500 });
   }
 }

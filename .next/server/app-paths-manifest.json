@@ -1,5 +1,10 @@
 {
-  "/(public)/page": "app/(public)/page.js",
-  "/(public)/secretarias/page": "app/(public)/secretarias/page.js",
-  "/(public)/contato/page": "app/(public)/contato/page.js"
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/permissoes/[userId]/route": "app/api/permissoes/[userId]/route.js",
+  "/admin/dashboard/page": "app/admin/dashboard/page.js",
+  "/admin/permissoes/page": "app/admin/permissoes/page.js",
+  "/admin/usuarios/page": "app/admin/usuarios/page.js",
+  "/admin/gestao/page": "app/admin/gestao/page.js",
+  "/admin/secretarias/page": "app/admin/secretarias/page.js",
+  "/admin/login/page": "app/admin/login/page.js"
 }

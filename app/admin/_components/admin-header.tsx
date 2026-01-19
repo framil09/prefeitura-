@@ -11,8 +11,8 @@ export function AdminHeader() {
   const user = session?.user as any;
 
   return (
-    <header className="sticky top-0 z-40 bg-blue-800 text-white shadow-lg">
-      <div className="flex items-center justify-between px-4 h-16">
+    <header className="sticky top-0 z-40 bg-gradient-to-r from-sky-500 via-cyan-500 to-blue-500 text-white shadow-lg border-b-2 border-cyan-300">
+      <div className="flex items-center justify-between px-6 h-16">
         <div className="flex items-center gap-4">
           <Link href="/admin/dashboard" className="flex items-center gap-2">
             <div className="relative w-10 h-10 bg-white rounded-full p-0.5">
@@ -32,7 +32,7 @@ export function AdminHeader() {
 
         <div className="flex items-center gap-4">
           <Link href="/" target="_blank">
-            <Button variant="ghost" size="sm" className="text-white hover:bg-blue-700">
+            <Button variant="ghost" size="sm" className="text-white hover:bg-cyan-500/30">
               <Home className="w-4 h-4 mr-2" />
               Ver Site
             </Button>
@@ -42,7 +42,7 @@ export function AdminHeader() {
             <div className="flex items-center gap-3">
               <div className="text-right hidden sm:block">
                 <p className="text-sm font-medium">{user?.name ?? "Usuário"}</p>
-                <p className="text-xs text-blue-200">
+                <p className="text-xs text-sky-100">
                   {user?.role === "ADMIN" ? "Administrador" : 
                    user?.role === "SECRETARIO" ? "Secretário" : "Editor"}
                 </p>
@@ -50,7 +50,7 @@ export function AdminHeader() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-white hover:bg-blue-700"
+                className="text-white hover:bg-cyan-500/30"
                 onClick={() => signOut({ callbackUrl: "/admin/login" })}
               >
                 <LogOut className="w-5 h-5" />

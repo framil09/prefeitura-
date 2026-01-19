@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "./accessibility.css";
 import { Providers } from "@/components/providers";
+import { VLibrasWidget } from "@/components/vlibras-widget";
+import { SkipToContentLink } from "@/components/skip-to-content";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,7 +36,6 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <head>
-        <script src="https://apps.abacus.ai/chatllm/appllm-lib.js"></script>
         {/* Google Analytics */}
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>
         <script
@@ -51,6 +53,8 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
+        <SkipToContentLink />
+        <VLibrasWidget />
         <Providers>{children}</Providers>
       </body>
     </html>
