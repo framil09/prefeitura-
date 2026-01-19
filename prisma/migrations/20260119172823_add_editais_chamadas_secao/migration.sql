@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "SecaoAdmin" ADD VALUE 'EDITAIS_CHAMADAS';

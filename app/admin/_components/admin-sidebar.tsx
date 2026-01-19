@@ -35,6 +35,7 @@ const menuItems: MenuItem[] = [
   { href: "/admin/secretarias", label: "Secretarias", icon: Building2, roles: ["ADMIN"], secao: "SECRETARIAS" },
   { href: "/admin/turismo", label: "Turismo", icon: Mountain, roles: ["ADMIN", "SECRETARIO"], secao: "TURISMO" },
   { href: "/admin/licitacoes", label: "Licitações", icon: FileText, roles: ["ADMIN", "SECRETARIO"], secao: "LICITACOES" },
+  { href: "/admin/editais", label: "Editais e Chamadas", icon: FileText, roles: ["ADMIN", "SECRETARIO"], secao: "EDITAIS_CHAMADAS" },
   { href: "/admin/emendas-impositivas", label: "Emendas Impositivas", icon: PenTool, roles: ["ADMIN", "SECRETARIO"], secao: "EMENDAS_IMPOSITIVAS" },
   { href: "/admin/noticias", label: "Notícias", icon: Newspaper, roles: ["ADMIN", "SECRETARIO", "EDITOR"], secao: "NOTICIAS" },
   { href: "/admin/galeria", label: "Galeria", icon: Image, roles: ["ADMIN", "SECRETARIO", "EDITOR"], secao: "GALERIA" },

@@ -55,6 +55,7 @@ const SECOES_AGRUPADAS = {
   "Transparência": [
     { value: "TRANSPARENCIA", label: "Portal Transparência" },
     { value: "LICITACOES", label: "Licitações" },
+    { value: "EDITAIS_CHAMADAS", label: "Editais e Chamadas" },
     { value: "EMENDAS_IMPOSITIVAS", label: "Emendas Impositivas" },
   ],
 };
@@ -66,6 +67,7 @@ const PRESETS = {
     GALERIA: true,
     TURISMO: false,
     LICITACOES: false,
+    EDITAIS_CHAMADAS: false,
     EMENDAS_IMPOSITIVAS: false,
     GESTAO_MUNICIPAL: false,
     SECRETARIAS: false,
@@ -79,6 +81,7 @@ const PRESETS = {
     GALERIA: true,
     TURISMO: true,
     LICITACOES: true,
+    EDITAIS_CHAMADAS: true,
     EMENDAS_IMPOSITIVAS: true,
     GESTAO_MUNICIPAL: false,
     SECRETARIAS: false,
