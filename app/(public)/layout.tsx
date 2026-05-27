@@ -1,6 +1,7 @@
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { WhatsAppFloatingButton } from "@/components/whatsapp-floating-button";
+import { ChatbotWidget } from "@/components/chatbot-widget";
 import { prisma } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
@@ -21,6 +22,7 @@ export default async function PublicLayout({
         telefone={config?.telefone}
         nomeCidade={config?.nomeCidade}
       />
+      <ChatbotWidget />
     </div>
   );
 }

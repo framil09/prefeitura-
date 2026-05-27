@@ -272,3 +272,182 @@ model DocumentoTransparencia {
   @@index([ordem])
 }
 
+// ==============================================
+// FASE 2 - FUNCIONALIDADES INOVADORAS
+// ==============================================
+
+// --- Chatbot de Transparência ---
+model ChatbotConversation {
+  id         String            @id @default(cuid())
+  sessionId  String
+  messages   ChatbotMessage[]
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+
+  @@index([sessionId])
+}
+
+model ChatbotMessage {
+  id             String              @id @default(cuid())
+  conversationId String
+  conversation   ChatbotConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String              // "user" | "assistant"
+  content        String              @db.Text
+  metadata       Json?               // dados de contexto como docs encontrados
+  createdAt      DateTime            @default(now())
+
+  @@index([conversationId])
+}
+
+// --- Orçamento Participativo Gamificado ---
+enum PropostaStatus {
+  RASCUNHO
+  ABERTA_VOTACAO
+  APROVADA
+  EM_EXECUCAO
+  CONCLUIDA
+  REJEITADA
+}
+
+model PropostaOrcamentaria {
+  id             String          @id @default(cuid())
+  titulo         String
+  descricao      String          @db.Text
+  categoria      String          // "educacao", "saude", "infraestrutura", "cultura", "esporte", "meio_ambiente"
+  valorEstimado  Decimal?        @db.Decimal(15, 2)
+  bairro         String?
+  autorNome      String
+  autorEmail     String
+  status         PropostaStatus  @default(RASCUNHO)
+  votos          VotoProposta[]
+  totalVotos     Int             @default(0)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@index([status])
+  @@index([categoria])
+  @@index([totalVotos])
+}
+
+model VotoProposta {
+  id         String              @id @default(cuid())
+  propostaId String
+  proposta   PropostaOrcamentaria @relation(fields: [propostaId], references: [id], onDelete: Cascade)
+  cidadaoId  String
+  cidadao    CidadaoParticipante @relation(fields: [cidadaoId], references: [id])
+  createdAt  DateTime            @default(now())
+
+  @@unique([propostaId, cidadaoId])
+  @@index([propostaId])
+  @@index([cidadaoId])
+}
+
+model CidadaoParticipante {
+  id         String          @id @default(cuid())
+  nome       String
+  email      String          @unique
+  cpfHash    String?         @unique  // hash do CPF para verificação sem armazenar dado sensível
+  pontos     Int             @default(0)
+  nivel      String          @default("Cidadão Iniciante")
+  badges     BadgeCidadao[]
+  votos      VotoProposta[]
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+
+  @@index([email])
+  @@index([pontos])
+}
+
+model BadgeCidadao {
+  id          String              @id @default(cuid())
+  cidadaoId   String
+  cidadao     CidadaoParticipante @relation(fields: [cidadaoId], references: [id], onDelete: Cascade)
+  tipo        String              // "primeiro_voto", "5_votos", "proposta_aprovada", etc.
+  titulo      String
+  descricao   String?
+  icone       String?
+  conqueredAt DateTime            @default(now())
+
+  @@unique([cidadaoId, tipo])
+  @@index([cidadaoId])
+}
+
+// --- Hub Integrado de Secretarias ---
+enum ProtocoloStatus {
+  ABERTO
+  EM_ANALISE
+  EM_TRAMITACAO
+  AGUARDANDO_RESPOSTA
+  RESPONDIDO
+  FINALIZADO
+  ARQUIVADO
+}
+
+model Protocolo {
+  id               String            @id @default(cuid())
+  numero           String            @unique
+  titulo           String
+  descricao        String            @db.Text
+  tipo             String            // "reclamacao", "solicitacao", "sugestao", "denuncia"
+  prioridade       String            @default("normal")  // "baixa", "normal", "alta", "urgente"
+  status           ProtocoloStatus   @default(ABERTO)
+  secretariaAtualId String?
+  solicitanteNome  String
+  solicitanteEmail String
+  solicitanteTel   String?
+  tramitacoes      Tramitacao[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  @@index([numero])
+  @@index([status])
+  @@index([secretariaAtualId])
+}
+
+model Tramitacao {
+  id              String          @id @default(cuid())
+  protocoloId     String
+  protocolo       Protocolo       @relation(fields: [protocoloId], references: [id], onDelete: Cascade)
+  deSecretariaId  String?
+  paraSecretariaId String?
+  deSecretaria    String?
+  paraSecretaria  String?
+  observacao      String?         @db.Text
+  responsavel     String?
+  dataEntrada     DateTime        @default(now())
+  dataSaida       DateTime?
+
+  @@index([protocoloId])
+}
+
+// --- Dashboard Smart City ---
+model IndicadorSmartCity {
+  id          String    @id @default(cuid())
+  categoria   String    // "clima", "saude", "educacao", "infraestrutura", "seguranca"
+  nome        String
+  valor       String
+  unidade     String?
+  icone       String?
+  fonte       String?
+  atualizadoEm DateTime @default(now())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([categoria])
+}
+
+model AlertaMunicipal {
+  id          String    @id @default(cuid())
+  tipo        String    // "clima", "saude", "seguranca", "infraestrutura"
+  titulo      String
+  descricao   String    @db.Text
+  severidade  String    @default("info")  // "info", "warning", "danger"
+  ativo       Boolean   @default(true)
+  expiraEm    DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([tipo])
+  @@index([ativo])
+}
+
