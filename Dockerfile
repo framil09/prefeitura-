@@ -1,6 +1,6 @@
 # ============================================
 # Plataforma Municipal - Dockerfile Multi-Stage
-# Otimizado para produção (Azure App Service / Container Instances)
+# Otimizado para produção
 # ============================================
 
 # Stage 1: Dependencies
@@ -13,9 +13,9 @@ COPY prisma ./prisma/
 
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f package-lock.json ]; then npm ci --legacy-peer-deps; \
   elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
-  else npm install; \
+  else npm install --legacy-peer-deps; \
   fi
 
 # Generate Prisma Client
