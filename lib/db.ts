@@ -4,9 +4,7 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient({
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-})
+export const prisma = globalForPrisma.prisma ?? new PrismaClient()
 
-// REMOVA a trava de 'production'. Guarde no global SEMPRE:
+// Salva no objeto global em QUALQUER ambiente para reaproveitar a conexão
 globalForPrisma.prisma = prisma
