@@ -4,13 +4,13 @@ import { prisma } from "@/lib/db";
 
 /**
  * GET /api/health
- * Health check endpoint para monitoramento e load balancers (Azure, Docker)
+ * Health check endpoint desacoplado para AWS Load Balancer
  */
 export async function GET() {
   const start = Date.now();
   const checks: Record<string, { status: string; latency?: number; error?: string }> = {};
 
-  // Check Database
+  // Check Database (apenas informativo, sem derrubar o HTTP Status)
   try {
     const dbStart = Date.now();
     await prisma.$queryRaw`SELECT 1`;
@@ -26,19 +26,19 @@ export async function GET() {
     latency: Math.round(memUsage.heapUsed / 1024 / 1024), // MB
   };
 
-  const allHealthy = Object.values(checks).every((c) => c.status !== "unhealthy");
   const totalLatency = Date.now() - start;
 
+  // IMPORTANTE: Retorna SEMPRE HTTP 200 para o Load Balancer manter a Task viva
   return NextResponse.json(
     {
-      status: allHealthy ? "healthy" : "unhealthy",
+      status: checks.database.status === "healthy" ? "healthy" : "degraded",
       version: process.env.APP_VERSION || "1.0.0",
-      environment: process.env.NODE_ENV || "development",
+      environment: process.env.NODE_ENV || "production",
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
       latency: totalLatency,
       checks,
     },
-    { status: allHealthy ? 200 : 503 }
+    { status: 200 } // <--- RETORNA 200 OBRIGATORIAMENTE
   );
 }
