@@ -7,7 +7,7 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: q7_sitelambari
+  ECR_REPOSITORY: q7gov-lambari-site
   ECS_SERVICE: Q7_SiteLambari_service
   ECS_CLUSTER: Q7Gov_SiteLambari
   CONTAINER_NAME: Q7_LambariSite
