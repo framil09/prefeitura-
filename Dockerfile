@@ -54,7 +54,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Define o limite máximo de Heap do Node.js em 1 GB para prevenir o OOM Killer (Exit Code 137)
+# Define o limite máximo de Heap do Node.js (1 GB) para evitar estouro de memória (Exit Code 137)
 ENV NODE_OPTIONS="--max-old-space-size=1024"
 
 # Criar usuário não-root
@@ -79,8 +79,8 @@ USER nextjs
 
 EXPOSE 3000
 
-# Healthcheck interno do container
+# Healthcheck interno apontado para a raiz "/" em vez de "/api/health"
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-  CMD curl -f http://localhost:3000/api/health || exit 1
+  CMD curl -f http://localhost:3000/ || exit 1
 
 CMD ["node", "server.js"]
