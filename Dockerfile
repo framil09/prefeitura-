@@ -45,7 +45,7 @@ RUN npm run build
 
 # Stage 3: Runner (Production)
 FROM node:20-alpine AS runner
-RUN apk add --no-cache libc6-compat openssl curl
+RUN apk add --no-cache libc6-compat openssl
 
 WORKDIR /app
 
@@ -54,8 +54,8 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Define o limite máximo de Heap do Node.js (1 GB) para evitar estouro de memória (Exit Code 137)
-ENV NODE_OPTIONS="--max-old-space-size=1024"
+# Limite de Heap ajustado para a Task
+ENV NODE_OPTIONS="--max-old-space-size=3072"
 
 # Criar usuário não-root
 RUN addgroup --system --gid 1001 nodejs
@@ -70,7 +70,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder /app/prisma ./prisma
 
-# Copiar os binários do Prisma diretamente das dependências geradas
+# Copiar os binários do Prisma
 COPY --from=deps /app/node_modules/prisma ./node_modules/prisma
 COPY --from=deps /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=deps /app/node_modules/.prisma ./node_modules/.prisma
@@ -78,9 +78,5 @@ COPY --from=deps /app/node_modules/.prisma ./node_modules/.prisma
 USER nextjs
 
 EXPOSE 3000
-
-# Healthcheck interno apontado para a raiz "/" em vez de "/api/health"
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-  CMD curl -f http://localhost:3000/ || exit 1
 
 CMD ["node", "server.js"]
