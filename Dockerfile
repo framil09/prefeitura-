@@ -54,8 +54,8 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Define o limite máximo de Heap do Node.js (1.5 GB) para evitar o OOM Killer (Exit Code 137)
-ENV NODE_OPTIONS="--max-old-space-size=1536"
+# Define o limite máximo de Heap do Node.js em 1 GB para prevenir o OOM Killer (Exit Code 137)
+ENV NODE_OPTIONS="--max-old-space-size=1024"
 
 # Criar usuário não-root
 RUN addgroup --system --gid 1001 nodejs
